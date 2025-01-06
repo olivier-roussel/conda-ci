@@ -3,6 +3,11 @@ setlocal EnableDelayedExpansion
 mkdir build
 cd build
 
+echo "%PREFIX%\python.exe"
+echo "%PYTHON%"
+call "%PREFIX%\python.exe --version"
+call "%PYTHON% --version"
+
 ::Configure
 cmake %CMAKE_ARGS% ^
   -B . ^
