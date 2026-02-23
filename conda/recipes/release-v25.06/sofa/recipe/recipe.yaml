@@ -19,7 +19,7 @@ source:
     - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
 
 build:
-  number: 8
+  number: 9
 
 outputs:
   - package:
@@ -38,18 +38,21 @@ outputs:
     requirements:
       build:
         - ${{ compiler('cxx') }}
-        - ${{ stdlib('c') }}
+        - if: target_platform != 'emscripten-wasm32'
+          then:
+            - ${{ stdlib('c') }}
         - cmake
         - if: unix
           then: make
         - if: win
           then: ninja
       host:
-        - libboost-headers
+        - boost-cpp
+        # - libboost-headers
         - zlib
-        - tinyxml2
+        # - tinyxml2
         - eigen
-        - cxxopts
+        # - cxxopts
         - gtest
         - nlohmann_json    
       run_exports:
@@ -89,22 +92,26 @@ outputs:
     requirements:
       build:
         - ${{ compiler('cxx') }}
-        - ${{ stdlib('c') }}
+        - if: target_platform != 'emscripten-wasm32'
+          then:
+            - ${{ stdlib('c') }}
         - cmake
         - if: unix
           then: make
         - if: win
           then: ninja
       host:
-        - libboost-headers
+        # - libboost-headers
+        - boost-cpp
         - zlib
-        - tinyxml2
+        # - tinyxml2
         - eigen
         - cxxopts
         - gtest
         - nlohmann_json
       run:
-        - libboost-headers
+        # - libboost-headers
+        - boost-cpp
         - eigen
         - zlib
         - cxxopts
@@ -151,7 +158,9 @@ outputs:
     requirements:
       build:
         - ${{ compiler('cxx') }}
-        - ${{ stdlib('c') }}
+        - if: target_platform != 'emscripten-wasm32'
+          then:
+            - ${{ stdlib('c') }}
         - cmake
         - if: unix
           then: make
